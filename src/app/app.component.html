@@ -42,4 +42,12 @@
   </div>
 </div>
 
+<div class='container' id='search-form'>
+  <form>
+    <label>Mark A Mess</label>
+    <input #newSearch>
+  </form>
+  <button class='btn btn-primary' (click)='getLocation(newSearch.value)'>Search</button>
+</div>
+
 <router-outlet></router-outlet>

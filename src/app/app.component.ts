@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
+import { GeocodingService } from './geocoding.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
+  providers: [ GeocodingService ]
 })
 export class AppComponent {
   zoom: number = 10;
@@ -13,6 +15,9 @@ export class AppComponent {
   markerLat: string;
   markerLng: string;
   markerDraggable: string;
+  result: any;
+  inputtedLat: any;
+  inputtedLng: any;
 
   markers: marker[] = [
     {
@@ -28,7 +33,7 @@ export class AppComponent {
     }
   ];
 
-  constructor() {
+  constructor(private geocodingService: GeocodingService) {
 
   }
 
@@ -60,22 +65,53 @@ export class AppComponent {
     var newLng = $event.coords.lng;
   }
 
-  addMarker() {
-    if(this.markerDraggable === 'Yes') {
-      var isDraggable = true;
-    } else {
-      var isDraggable = false;
-    }
+  // addMarker() {
+  //   if(this.markerDraggable === 'Yes') {
+  //     var isDraggable = true;
+  //   } else {
+  //     var isDraggable = false;
+  //   }
+  //
+  //   var newMarker = {
+  //     name: this.markerName,
+  //     lat: parseFloat(this.markerLat),
+  //     lng: parseFloat(this.markerLng),
+  //     draggable: isDraggable
+  //   }
+  //
+  //   this.markers.push(newMarker);
+  // }
 
-    var newMarker = {
-      name: this.markerName,
-      lat: parseFloat(this.markerLat),
-      lng: parseFloat(this.markerLng),
-      draggable: isDraggable
-    }
+  getLocation(userInput) {
+    this.geocodingService.insertLocation(userInput).subscribe(response => {
+      this.result = response;
+      this.inputtedLat = response.results[0].geometry.location.lat;
+      this.inputtedLng = response.results[0].geometry.location.lng;
+      console.log(this.inputtedLat);
+      console.log(this.inputtedLng);
+      console.log(this.result);
 
-    this.markers.push(newMarker);
+      var newMarker = {
+        name: 'test',
+        lat: this.inputtedLat,
+        lng: this.inputtedLng,
+        draggable: false
+      }
+      this.markers.push(newMarker);
+    })
   }
+
+  // addMarker() {
+  //   var newMarker = {
+  //     name: 'test',
+  //     lat: this.inputtedLat,
+  //     lng: this.inputtedLng,
+  //     draggable: false
+  //   }
+  //   console.log('addMarker success', this.inputtedLat)
+  //   console.log('newMarker: ', newMarker)
+  //   this.markers.push(newMarker);
+  // }
 
 }
 

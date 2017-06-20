@@ -16,13 +16,13 @@ export class GeocodeComponent implements OnInit {
 
   ngOnInit() { }
 
-  getLocation(userInput) {
-    this.geocodingService.insertLocation(userInput).subscribe(response => {
-      this.result = response;
-      this.lat = response.results[0].geometry.location.lat;
-      console.log(this.lat);
-      console.log(this.result);
-    })
-  }
+  // getLocation(userInput) {
+  //   this.geocodingService.insertLocation(userInput).subscribe(response => {
+  //     this.result = response;
+  //     this.lat = response.results[0].geometry.location.lat;
+  //     console.log(this.lat);
+  //     console.log(this.result);
+  //   })
+  // }
 
 }
